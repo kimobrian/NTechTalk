@@ -9,7 +9,9 @@
   "dependencies": {
     "apollo-server-express": "^2.4.8",
     "express": "^4.16.4",
-    "graphql": "^14.2.1"
+    "graphql": "^14.2.1",
+    "graphql-import": "^0.7.1",
+    "graphql-tools": "^4.0.4"
   },
   "devDependencies": {
     "eslint": "^5.16.0",
