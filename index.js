@@ -3,13 +3,19 @@ const {ApolloServer} = require("apollo-server-express");
 const {importSchema} = require("graphql-import");
 const typeDefs = importSchema("schema.graphql");
 const {makeExecutableSchema} = require("graphql-tools");
-const {getUser, getAllUsers} = require("./controller");
+const {getUser, getAllUsers, createUser} = require("./controller");
 
 // Resolver functions for your schema fields
 const resolvers = {
   Query: {
     user: (parent, args) => getUser(args.id),
     users: () => getAllUsers()
+  },
+  Mutation: {
+    createUser: (parent, {params}) => {
+      const {name, age, citizenship, gender, married} = params;
+      return createUser(name, age, citizenship, gender, married);
+    }
   }
 };
 
@@ -18,7 +24,7 @@ const schema = makeExecutableSchema({
   resolvers
 });
 
-const server = new ApolloServer({schema, playground: true});
+const server = new ApolloServer({schema, playground: true, tracing: true});
 
 const app = express();
 app.use(express.json());
@@ -35,6 +41,11 @@ app.get("/rest/users", (req, res) => {
 app.get("/rest/user/:id", (req, res) => {
   const recordId = req.params.id;
   res.json(getUser(recordId));
+});
+
+app.post("/rest/user", (req, res) => {
+  const {name, age, citizenship, gender, married} = req.body;
+  res.json(createUser(name, age, citizenship, gender, married));
 });
 
 server.applyMiddleware({app});

@@ -60,6 +60,7 @@ const createUser = (name, age, citizenship, gender, married) => {
     }
   };
   users.push(newUser);
+  return newUser;
 };
 
 const updateUserName = (id, name, citizenship, gender, married) => {

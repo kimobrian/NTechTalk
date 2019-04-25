@@ -1,17 +1,29 @@
-type Record {
+type Record {,
    id: ID
    data: Person
 }
 
 type Person {
-   name: String
-   age: Int
-   citizenship: String
-   gender: String
-   married: Boolean
+  name: String
+  age: Int
+  citizenship: String
+  gender: String
+  married: Boolean
+}
+
+input PersonInput {
+  name: String!
+  age: Int!
+  citizenship: String!
+  gender: String
+  married: Boolean
 }
 
 type Query { # Root Query type
   user(id: ID!): Record # id is required
   users: [Record] # Returns a list/array of type Record
+}
+
+type Mutation {
+  createUser(params: PersonInput) : Record
 }
