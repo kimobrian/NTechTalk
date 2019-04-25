@@ -3,11 +3,13 @@ const {ApolloServer} = require("apollo-server-express");
 const {importSchema} = require("graphql-import");
 const typeDefs = importSchema("schema.graphql");
 const {makeExecutableSchema} = require("graphql-tools");
+const {getUser, getAllUsers} = require("./controller");
 
 // Resolver functions for your schema fields
 const resolvers = {
   Query: {
-    hello: () => "Hello world!" // Resolver function for hello operation
+    user: (parent, args) => getUser(args.id),
+    users: () => getAllUsers()
   }
 };
 
@@ -24,6 +26,15 @@ app.use(express.urlencoded({extended: true}));
 
 app.get("/rest", (req, res) => {
   res.json({message: "Welcome to our GraphQL + REST API"});
+});
+
+app.get("/rest/users", (req, res) => {
+  res.json(getAllUsers());
+});
+
+app.get("/rest/user/:id", (req, res) => {
+  const recordId = req.params.id;
+  res.json(getUser(recordId));
 });
 
 server.applyMiddleware({app});

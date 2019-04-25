@@ -31,7 +31,7 @@ const users = [
     }
   },
   {
-    id: 2,
+    id: 3,
     data: {
       name: "Janet Njeri",
       age: 23,
